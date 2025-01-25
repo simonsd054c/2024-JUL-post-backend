@@ -34,7 +34,7 @@ postRouter.post("/", async (req, res) => {
         is_published: req.body.is_published
     }
     const newPost = await createPost(bodyData)
-    res.json(newPost)
+    res.status(201).json(newPost)
 })
 
 // PATCH - /posts/id
