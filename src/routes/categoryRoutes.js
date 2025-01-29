@@ -7,6 +7,7 @@ const {
     updateCategory,
     deleteCategory
 } = require("../controllers/categoryControllers")
+const checkIfAdmin = require("../middlewares/checkIfAdmin")
 
 const categoryRouter = express.Router()
 
@@ -24,7 +25,9 @@ categoryRouter.get("/:categoryId", async (req, res) => {
     }
 })
 
-categoryRouter.post("/", async (req, res) => {
+// categoryRouter.use(checkIfAdmin)
+
+categoryRouter.post("/", checkIfAdmin, async (req, res) => {
     const bodyData = {
         title: req.body.title,
         description: req.body.description
