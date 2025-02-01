@@ -33,25 +33,28 @@ postRouter.post("/", auth, async (req, res) => {
         title: req.body.title,
         body: req.body.body,
         is_published: req.body.is_published,
-        category_id: req.body.category_id
+        category_id: req.body.category_id,
+        user_id: req.userId,
     }
     const newPost = await createPost(bodyData)
     res.status(201).json(newPost)
 })
 
 // PATCH - /posts/id
-postRouter.patch("/:postId", async (req, res) => {
+postRouter.patch("/:postId", auth, async (req, res) => {
     const bodyData = {
         title: req.body.title,
         body: req.body.body,
         is_published: req.body.is_published,
         category_id: req.body.category_id
     }
-    const updatedPost = await updatePost(req.params.postId, bodyData)
-    if (updatedPost) {
-        res.json(updatedPost)
-    } else {
+    const updatedPost = await updatePost(req.params.postId, bodyData, req.userId)
+    if (!updatedPost) {
         res.status(404).json({ error: `Post with id ${req.params.postId} not found` })
+    } else if (updatedPost.error) {
+        res.status(403).json(updatedPost)
+    } else {
+        res.json(updatedPost)
     }
 })
 

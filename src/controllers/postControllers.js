@@ -16,7 +16,11 @@ async function createPost(post) {
     return newPost
 }
 
-async function updatePost(postId, post) {
+async function updatePost(postId, post, userId) {
+    const postToUpdate = await Post.findById(postId)
+    if (postToUpdate.user_id.toString() !== userId) {
+        return { error: "Not allowed to perform this action" }
+    }
     const updatedPost = await Post.findByIdAndUpdate(postId, post, { new: true })
     return updatedPost
 }

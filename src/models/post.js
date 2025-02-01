@@ -12,7 +12,11 @@ const PostSchema = mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "Category"
     },
-    comments: [CommentSchema]
+    comments: [CommentSchema],
+    user_id: {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    }
 })
 
 /**
