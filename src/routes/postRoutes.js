@@ -7,6 +7,7 @@ const {
     updatePost,
     deletePost
 } = require("../controllers/postControllers")
+const auth = require("../middlewares/auth")
 
 const postRouter = express.Router()
 
@@ -27,7 +28,7 @@ postRouter.get("/:postId", async (req, res) => {
 })
 
 // POST - /posts
-postRouter.post("/", async (req, res) => {
+postRouter.post("/", auth, async (req, res) => {
     const bodyData = {
         title: req.body.title,
         body: req.body.body,
